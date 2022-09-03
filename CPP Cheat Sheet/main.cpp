@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
+#include <utility>
 #include "main.h"
 #include <time.h>
 
@@ -18,7 +19,7 @@ using namespace std;
 void __template__ (void);
 
 void func_enum(void);
-void func_io_manpulation(void);
+void func_io_manipulation(void);
 void func_file_read (void);
 void func_file_write (void);
 void func_string_manip (void);
@@ -26,7 +27,7 @@ void func_string_manip (void);
 
 class Student
 {
-    string name;
+    string name = nullptr;
     int id;
     int gradDate;
     
@@ -36,7 +37,7 @@ public:
     
     void setName(string nameIn){
         //name = nameIn;
-        this->name = nameIn;
+        this->name = string();
     }
 };
 
@@ -60,7 +61,7 @@ int main(int argc, const char * argv[]) {
     //st1 = *new Student();
     
     //func_enum();
-    //func_io_manpulation();
+    //func_io_manipulation();
     //func_file_read();
     //func_file_write();
     //func_string_manip();
@@ -88,7 +89,7 @@ void func_enum(){
     
     std::cout << "My Birth Month is : " << myBirthMonth << std::endl;
 }
-void func_io_manpulation(){
+void func_io_manipulation(){
     
     std::cout << "Name" << std::setw(10) << "Age" << std::endl;
     std::cout << "Kadian" << std::setw(8) << "24" << std::endl;
