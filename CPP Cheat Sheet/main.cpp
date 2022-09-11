@@ -31,6 +31,9 @@ void func_file_write ();
 void func_string_manipulation ();
 size_t get_size (const std::string &); //declaring functions with constant parameter
 void find();
+void showMemoryUsage(const string &);
+void unique_pointers();
+
 
 class Student
 {
@@ -65,17 +68,7 @@ public:
     return name;
 }*/
 
-void showMemoryUsage(const string &str)
-{
-    struct rusage usage{};
-    long memory = 0;
 
-    if(0 == getrusage(RUSAGE_SELF, &usage)){
-        memory = usage.ru_maxrss; // bytes
-    }
-
-    cout << std::endl << "(" << str << ")" << " Memory Usage : [" << memory << "] bytes" << std::endl;
-}
 
 
 
@@ -84,26 +77,7 @@ int main() {
 
     showMemoryUsage("Start");
 
-    int d = 10;
-    int c = 33;
-    int r = 0;
 
-    Student *str1 = new Student;
-
-
-
-    {
-
-        str1->setName("kevin");
-
-        cout << str1->getName() << std::endl;
-
-        showMemoryUsage("Block");
-    }
-
-    //r = c + d;
-
-    cout << str1->getName() << r  << " : Again" << std::endl;
 
 
     showMemoryUsage("End");
@@ -297,4 +271,33 @@ void find(){
 
 
 }
+void showMemoryUsage(const string &str)
+{
+    struct rusage usage{};
+    long memory = 0;
 
+    if(0 == getrusage(RUSAGE_SELF, &usage)){
+        memory = usage.ru_maxrss; // bytes
+    }
+
+    cout << std::endl << "(" << str << ")" << " Memory Usage : [" << memory << "] bytes" << std::endl;
+}
+void unique_pointers(){
+    auto str1 = make_shared<Student>() ;
+    auto str2 = make_shared<Student>() ;
+
+
+
+    str1->setName("kevin");
+    //str2 = std::move(str1);
+
+
+    cout << "Str 1 : " << str1->getName() << std::endl;
+    cout << "Str 2 : " << str2->getName() << std::endl;
+
+
+    //r = c + d;
+
+    cout << "Str 1 : " << str1->getName()  << " : Again" << std::endl;
+    cout << "Str 2 : " << str2->getName()  << " : Again" << std::endl;
+}
