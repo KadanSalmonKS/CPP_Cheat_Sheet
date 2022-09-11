@@ -38,6 +38,7 @@ void scientific_fixed_notation();
 void working_with_boolean();
 void calculation_on_data();
 void working_with_math_functions();
+void range_based_for_loop();
 
 
 class Student
@@ -82,7 +83,7 @@ int main(int argc, const char * argv[]) {
 
     showMemoryUsage("Start");
 
-    working_with_math_functions();
+    range_based_for_loop();
 
     showMemoryUsage("End");
     
@@ -427,6 +428,19 @@ void working_with_math_functions(){
     cout << "Value is (log) : " << std::log(pos_dub) << endl; //The logarithm - inverse of exp (log ; to get [pos_dub], elevate e to the power std::log(pos_dub))
     cout << "Value is : " << std::pow(pos_dub,2) << endl; //[pos_dub] raised to the power of 2
 
+
+
+}
+void range_based_for_loop(){
+
+    //char message [] = {'H','e','l','l','o', '\0'};
+    string message = {"Hello"};
+
+    //cout << "Message : " << message;
+    cout << "Message : ";
+    for (char c: message) {
+        cout << c << endl;
+    }
 
 
 }
