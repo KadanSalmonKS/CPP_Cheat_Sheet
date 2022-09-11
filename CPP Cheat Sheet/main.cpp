@@ -37,6 +37,7 @@ void floating_point();
 void scientific_fixed_notation();
 void working_with_boolean();
 void calculation_on_data();
+void working_with_math_functions();
 
 
 class Student
@@ -81,9 +82,7 @@ int main(int argc, const char * argv[]) {
 
     showMemoryUsage("Start");
 
-
-    output_manipulation();
-
+    working_with_math_functions();
 
     showMemoryUsage("End");
     
@@ -156,6 +155,7 @@ void func_enum(){
     std::cout << "My Birth Month is : " << static_cast<int>(myBirthMonth) << std::endl;
 }
 void output_manipulation(){
+    //#include<iomanip>
 
     //std::setw - specify width
     std::cout << "Name" << std::setw(10) << "Age" << std::endl;
@@ -405,5 +405,28 @@ void calculation_on_data(){
     value = 1; //value = 1
     cout << "Value is (prefix incrementing) : " << ++value << endl; //value = 2 (INCREMENT the value then GET newly updated value)
     cout << "Value is : " << value << endl; //value = 2
+
+}
+void working_with_math_functions(){
+
+    //#include<cmath>
+
+    double pos_dub = 234.89;
+
+
+    cout << "Value is : " << std::floor(pos_dub) << endl; //To round down
+    cout << "Value is : " << std::ceil(pos_dub) << endl; //To round up
+    cout << "Value is : " << std::abs(pos_dub) << endl; //The absolute value of a number (disregarding the sign (+ / -))
+
+    //trigonometry
+    cout << "Value is : " << std::sin(pos_dub) << endl; //The sine
+    cout << "Value is : " << std::cos(pos_dub) << endl; //The cosine
+    cout << "Value is : " << std::tan(pos_dub) << endl; //The tangent
+
+    cout << "Value is (exp) : " << std::exp(pos_dub) << endl; //The exponential (e to the power of pos_dub)
+    cout << "Value is (log) : " << std::log(pos_dub) << endl; //The logarithm - inverse of exp (log ; to get [pos_dub], elevate e to the power std::log(pos_dub))
+    cout << "Value is : " << std::pow(pos_dub,2) << endl; //[pos_dub] raised to the power of 2
+
+
 
 }
