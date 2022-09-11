@@ -36,6 +36,7 @@ void unique_pointers();
 void floating_point();
 void scientific_fixed_notation();
 void working_with_boolean();
+void calculation_on_data();
 
 
 class Student
@@ -81,7 +82,7 @@ int main(int argc, const char * argv[]) {
     showMemoryUsage("Start");
 
 
-    working_with_boolean();
+    calculation_on_data();
 
 
     showMemoryUsage("End");
@@ -303,14 +304,42 @@ void scientific_fixed_notation(){
 }
 void working_with_boolean(){
 
-
     bool red_light{false};
     bool green_light{true};
-
 
     cout << std::boolalpha; //forces output to use true/false instead of (1 / 0)
     cout << "Green is : " << green_light << endl;
     cout << "Red is : " << red_light << endl;
+}
+void calculation_on_data(){
 
+    int num1{2};
+    int num2{7};
+
+    int result{0};
+    int value{1};
+
+
+    //Addition
+    result = num1 + num2;
+
+    //Subtraction
+    result = num1 - num2;
+
+    //Multiplication
+    result = num1 * num2;
+
+    //Division
+    result = num1 / num2;
+
+    //Modulus - remainder
+    result = num2 % num1;
+
+
+
+    //cout << "Result is : " << result << endl;
+
+
+    cout << "Result is : " << result << endl;
 
 }
