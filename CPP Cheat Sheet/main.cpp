@@ -25,7 +25,7 @@ using namespace std;
 
 void template_block_ ();
 void func_enum(); //enumeration demonstration
-void func_io_manipulation();
+void output_manipulation();
 void func_file_read ();
 void func_file_write ();
 void func_string_manipulation ();
@@ -82,7 +82,7 @@ int main(int argc, const char * argv[]) {
     showMemoryUsage("Start");
 
 
-    calculation_on_data();
+    output_manipulation();
 
 
     showMemoryUsage("End");
@@ -155,10 +155,66 @@ void func_enum(){
     
     std::cout << "My Birth Month is : " << static_cast<int>(myBirthMonth) << std::endl;
 }
-void func_io_manipulation(){
-    
+void output_manipulation(){
+
+    //std::setw - specify width
     std::cout << "Name" << std::setw(10) << "Age" << std::endl;
     std::cout << "Kadian" << std::setw(8) << "24" << std::endl;
+    std::cout << "Kevin" << std::setw(8) << "9" << std::endl;
+    std::cout << endl;
+
+    //std::right - specify justification (of text)
+    std::cout << std::right;
+    std::cout << "Name" << std::setw(10) << "Age" << std::endl;
+    std::cout << "Kadian" << std::setw(8) << "24" << std::endl;
+    std::cout << "Kevin" << std::setw(8) << "9" << std::endl;
+    std::cout << endl;
+
+
+    //std::setfill - replace empty space with specified char
+    std::cout << std::setfill('.');
+    std::cout << "Name" << std::setw(10) << "Age" << std::endl;
+    std::cout << "Kadian" << std::setw(8) << "24" << std::endl;
+    std::cout << "Kevin" << std::setw(8) << "9" << std::endl;
+    std::cout << endl;
+
+
+    //std::boolalpha - forces output to use true/false instead of (1 / 0)
+    //std::noboolalpha - disables boolalpha
+    std::cout << std::boolalpha;
+    std::cout << "Bool int val true : " << true << std::endl; // Output : "Bool int val true : true"
+    std::cout << "Bool int val false : " << false << std::endl; // Output : "Bool int val false : false"
+    std::cout << std::noboolalpha;
+    std::cout << "Bool int val true : " << true << std::endl; // Output : "Bool int val true : 1"
+    std::cout << "Bool int val false : " << false << std::endl; // Output : "Bool int val true : 0"
+    std::cout << endl;
+
+
+    //std::showpos - forces output to show the positive sign
+    //std::noshowpos - disables showpos
+    std::cout << std::showpos;
+    std::cout << "int val : " << 10 << std::endl; // Output : "int val : +10"
+    std::cout << "int val : " << -10 << std::endl; // Output : "int val : -10" - shown by default
+    std::cout << std::noshowpos << endl;
+
+    //decimal, hex, oct
+    int pos_int {717171};
+    std::cout << "dec val : " << std::dec << pos_int << std::endl; // Output : "dec val : 717171"
+    std::cout << "hex val : " << std::hex << pos_int << std::endl; // Output : "hex val : af173"
+    std::cout << "oct val : " << std::oct << pos_int << std::endl; // Output : "oct val : 2570563"
+
+    std::cout << std::showbase; //show the base if the value (0x, 0, etc)
+    std::cout << "dec val : " << std::dec << pos_int << std::endl; // Output : "dec val : 717171"
+    std::cout << "hex val : " << std::hex << pos_int << std::endl; // Output : "hex val : 0xaf173"
+    std::cout << "oct val : " << std::oct << pos_int << std::endl; // Output : "oct val : 02570563"
+    std::cout << std::noshowbase << endl;
+
+    //EXTRA output modifiers
+    std::cout << std::setprecision(20); //output floating & double at the specified precision
+    std::cout << std::uppercase; //output to uppercase
+    std::cout << std::scientific; //output to scientific notation (1.34e-10 -> 1.34e-10)
+    std::cout << std::fixed; //output to fixed notation (1.34e-10 -> 0.00000) (this is default)
+
     
 }
 void func_file_read(){
