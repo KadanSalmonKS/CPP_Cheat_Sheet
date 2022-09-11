@@ -12,21 +12,22 @@
 #include <utility>
 #include <cmath>
 #include "main.h"
-#include <time.h>
+#include <ctime>
 #include <set>
+#include <chrono>
+#include <vector>
 
 using namespace std;
 
 
-void __template_block__ (void);
-
-void func_enum(void); //enumeration demonstration
-void func_io_manipulation(void);
-void func_file_read (void);
-void func_file_write (void);
-void func_string_manipulation (void);
+void template_block_ ();
+void func_enum(); //enumeration demonstration
+void func_io_manipulation();
+void func_file_read ();
+void func_file_write ();
+void func_string_manipulation ();
 size_t get_size (const std::string &); //declaring functions with constant parameter
-void find(void);
+void find();
 
 class Student
 {
@@ -57,7 +58,7 @@ string Student::getName() const {
 
 
 
-int main(int argc, const char * argv[]) {
+int main_test() {
     
     //int d = 10;
     //Student str1;
@@ -70,11 +71,13 @@ int main(int argc, const char * argv[]) {
     //printf("PI = %lf\n", x);
     //cout << std::setprecision(20);
     //cout << "PI = " << x;
-
-    //std::string n = "kadian";
+    //std::string n = "Kadian";
 
     //cout << get_size(n);
-    //cout << get_size("kadian");
+    //cout << get_size("Kadian");
+    func_file_write();
+
+    func_file_read();
 
     
     //st1 = *new Student();
@@ -97,13 +100,62 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 
+int main(int argc, const char * argv[]){
+    vector<int> values(10);
 
-void __template_block__(){
+    // Generate Random values
+    auto f = []()  { return arc4random() % 10; };
+
+    // Fill up the vector
+    generate(values.begin(), values.end(), f);
+
+
+    auto start = chrono::high_resolution_clock::now();
+
+    // unsync the I/O of C and C++.
+    ios_base::sync_with_stdio(false);
+
+
+    // Call the function, here sort()
+    sort(values.begin(), values.end());
+
+
+    for (int &value : values) {
+        cout << value << std::endl;
+        value = 666;
+    }
+
+    /*for (auto it : values) {
+        cout << it << std::endl;
+    }*/
+
+    cout << std::endl << std::endl;
+    for (int value : values) {
+        cout << value << std::endl;
+    }
+
+
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculating total time taken by the program.
+    long double  time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+
+    time_taken *= 1e-9;
+
+    cout << "Time taken by program is : " << fixed
+         << time_taken << setprecision(9);
+    cout << " sec" << endl;
+    return 0;
+}
+
+
+
+
+void template_block_(){
     
     std::cout << "Hello Kadian" << std::endl;
     
 }
-
 void func_enum(){
     //"enum class Month" must be used instead of "enum Month"
     enum class Month {Jan = 1, Feb, Mar, Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec};
@@ -124,10 +176,10 @@ void func_file_read(){
     fstream fs;
     string line;
     //auto *ch = (char *) malloc(sizeof(char) * 200);
-    auto ch = std::make_unique<char>(200);
+    auto ch = std::make_unique<char>();
 
 
-    fs.open("log.txt", fstream::in);
+    fs.open("log.txt", ios::in);
     
     if (fs.is_open()) {
         //fs >> ch;                      //METHOD 1
@@ -160,14 +212,14 @@ void func_file_read(){
         
     }
     
-    std::cout << "File Data : " << line << std::endl;
+    //std::cout << "File Data : " << line << std::endl;
     
 }
 void func_file_write (){
     
     std::fstream fs;
     
-    fs.open("log.txt");
+    fs.open("log.txt",ios::out);
     
     
     fs << "Name" << setw(10) << "Age" << std::endl;
@@ -185,7 +237,7 @@ void func_string_manipulation(){
 size_t get_size (const std::string &s){
     return s.size();
 }
-void find(void){
+void find(){
     std::set<std::string> m = {"Dory","Marlin","Nemo","Emo"};
 
     const std::string lookup = "Nemo";
