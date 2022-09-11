@@ -17,6 +17,9 @@
 #include <chrono>
 #include <vector>
 
+#include <sys/resource.h>
+
+
 using namespace std;
 
 
@@ -31,17 +34,24 @@ void find();
 
 class Student
 {
-    string name = nullptr;
+private:
+    string name = {0};
     //int id;
     //int gradDate;
     
 public:
-    //void setName(string name);
-    string getName() const;
+    //void setName(const string &);
+    //string getName() const;
+
+
     
     void setName(const string &nameIn){
         //name = nameIn;
         this->name = nameIn;
+    }
+
+    string getName() const{
+        return this->name;
     }
 };
 
@@ -50,18 +60,54 @@ public:
     this->name = nameIn;
 }*/
 
-string Student::getName() const {
+/*string Student::getName() const {
     //functions that don't mutate data must be declared as const
     return name;
+}*/
+
+void showMemoryUsage(const string &str)
+{
+    struct rusage usage{};
+    long memory = 0;
+
+    if(0 == getrusage(RUSAGE_SELF, &usage)){
+        memory = usage.ru_maxrss; // bytes
+    }
+
+    cout << std::endl << "(" << str << ")" << " Memory Usage : [" << memory << "] bytes" << std::endl;
 }
 
 
 
+int main() {
 
-int main_test() {
-    
-    //int d = 10;
-    //Student str1;
+
+    showMemoryUsage("Start");
+
+    int d = 10;
+    int c = 33;
+    int r = 0;
+
+    Student *str1 = new Student;
+
+
+
+    {
+
+        str1->setName("kevin");
+
+        cout << str1->getName() << std::endl;
+
+        showMemoryUsage("Block");
+    }
+
+    //r = c + d;
+
+    cout << str1->getName() << r  << " : Again" << std::endl;
+
+
+    showMemoryUsage("End");
+
 
 
 
@@ -75,9 +121,9 @@ int main_test() {
 
     //cout << get_size(n);
     //cout << get_size("Kadian");
-    func_file_write();
+    //func_file_write();
 
-    func_file_read();
+    //func_file_read();
 
     
     //st1 = *new Student();
@@ -95,12 +141,12 @@ int main_test() {
 
     //find();
 
-    func_enum();
+    //func_enum();
     
     return 0;
 }
 
-int main(int argc, const char * argv[]){
+int main_test(int argc, const char * argv[]){
     vector<int> values(10);
 
     // Generate Random values
