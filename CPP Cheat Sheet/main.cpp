@@ -34,6 +34,7 @@ void find();
 void showMemoryUsage(const string &);
 void unique_pointers();
 void floating_point();
+void scientific_fixed_notation();
 
 
 class Student
@@ -79,7 +80,7 @@ int main(int argc, const char * argv[]) {
     showMemoryUsage("Start");
 
 
-    floating_point();
+    scientific_fixed_notation();
 
 
     showMemoryUsage("End");
@@ -282,5 +283,20 @@ void floating_point(){
     cout << "Number 1 is : " << num1 << endl;
     cout << "Number 2 is : " << num2 << endl;
     cout << "Number 3 is : " << num3 << endl;
+
+}
+void scientific_fixed_notation(){
+    // used for extremely large numbers
+
+    double num1{1.45395784e8}; // = 145395784
+    double num2{1.45395784e-08}; // = 0.0000000145395784
+    double num3{1.45395784}; // = 1.45395784
+
+
+    cout << std::setprecision(20);
+    cout << "Number 1 is : " << num1 << endl;
+    cout << "Number 2 is : " << num2 << endl;
+    cout << "Number 3 is : " << num3 << endl;
+
 
 }
