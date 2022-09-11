@@ -317,7 +317,7 @@ void calculation_on_data(){
     int num2{7};
 
     int result{0};
-    int value{1};
+    int value{0};
 
 
     //Addition
@@ -335,11 +335,19 @@ void calculation_on_data(){
     //Modulus - remainder
     result = num2 % num1;
 
-
-
     //cout << "Result is : " << result << endl;
 
 
-    cout << "Result is : " << result << endl;
+
+    //postfix incrementation
+    value = 1; //value = 1
+    cout << "Value is (postfix incrementing) : " << value++ << endl; //value = 1 (GET the value then INCREMENT for next usage)
+    cout << "Value is : " << value << endl; //value = 2
+
+
+    //prefix incrementation
+    value = 1; //value = 1
+    cout << "Value is (prefix incrementing) : " << ++value << endl; //value = 2 (INCREMENT the value then GET newly updated value)
+    cout << "Value is : " << value << endl; //value = 2
 
 }
