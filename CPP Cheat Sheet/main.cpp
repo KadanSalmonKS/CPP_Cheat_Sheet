@@ -35,6 +35,7 @@ void showMemoryUsage(const string &);
 void unique_pointers();
 void floating_point();
 void scientific_fixed_notation();
+void working_with_boolean();
 
 
 class Student
@@ -80,7 +81,7 @@ int main(int argc, const char * argv[]) {
     showMemoryUsage("Start");
 
 
-    scientific_fixed_notation();
+    working_with_boolean();
 
 
     showMemoryUsage("End");
@@ -297,6 +298,19 @@ void scientific_fixed_notation(){
     cout << "Number 1 is : " << num1 << endl;
     cout << "Number 2 is : " << num2 << endl;
     cout << "Number 3 is : " << num3 << endl;
+
+
+}
+void working_with_boolean(){
+
+
+    bool red_light{false};
+    bool green_light{true};
+
+
+    cout << std::boolalpha; //forces output to use true/false instead of (1 / 0)
+    cout << "Green is : " << green_light << endl;
+    cout << "Red is : " << red_light << endl;
 
 
 }
