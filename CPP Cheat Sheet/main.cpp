@@ -72,7 +72,7 @@ public:
 
 
 
-int main() {
+int main(int argc, const char * argv[]) {
 
 
     showMemoryUsage("Start");
@@ -81,46 +81,11 @@ int main() {
 
 
     showMemoryUsage("End");
-
-
-
-
-    //M_PI = "3.14159265358979323846"
-
-    //double x = std::acos(-1);
-    //printf("PI = %lf\n", x);
-    //cout << std::setprecision(20);
-    //cout << "PI = " << x;
-    //std::string n = "Kadian";
-
-    //cout << get_size(n);
-    //cout << get_size("Kadian");
-    //func_file_write();
-
-    //func_file_read();
-
-    
-    //st1 = *new Student();
-    
-    //func_enum();
-    //func_io_manipulation();
-    //func_file_read();
-    //func_file_write();
-    //func_string_manip();
-    
-    //str1.setName("Kadian Salmon");
-    //str1.setName("Kevin Smith");
-
-    //std::cout << str1.getName() << std::endl;
-
-    //find();
-
-    //func_enum();
     
     return 0;
 }
 
-int main_test(int argc, const char * argv[]){
+int main_test(){
     vector<int> values(10);
 
     // Generate Random values
