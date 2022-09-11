@@ -33,6 +33,7 @@ size_t get_size (const std::string &); //declaring functions with constant param
 void find();
 void showMemoryUsage(const string &);
 void unique_pointers();
+void floating_point();
 
 
 class Student
@@ -78,6 +79,7 @@ int main(int argc, const char * argv[]) {
     showMemoryUsage("Start");
 
 
+    floating_point();
 
 
     showMemoryUsage("End");
@@ -265,4 +267,20 @@ void unique_pointers(){
 
     cout << "Str 1 : " << str1->getName()  << " : Again" << std::endl;
     cout << "Str 2 : " << str2->getName()  << " : Again" << std::endl;
+}
+void floating_point(){
+    float num1{1.432345785746453465f}; // 7 precision
+    double num2{1.453957848684205849384}; // 15 precision
+    long double num3{1.44736454578475635343L}; // 15+ precision
+
+    //cout << "Time taken by program is : " << "time_taken" << setprecision(9);
+    cout << "Size of float : " << sizeof(num1) << endl;
+    cout << "Size of double : " << sizeof(num2) << endl;
+    cout << "Size of long double : " << sizeof(num3) << endl;
+
+    cout << std::setprecision(20);
+    cout << "Number 1 is : " << num1 << endl;
+    cout << "Number 2 is : " << num2 << endl;
+    cout << "Number 3 is : " << num3 << endl;
+
 }
