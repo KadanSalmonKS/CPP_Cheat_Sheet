@@ -16,6 +16,7 @@
 #include <set>
 #include <chrono>
 #include <vector>
+#include <memory>
 
 #include <sys/resource.h>
 
@@ -24,15 +25,17 @@ using namespace std;
 
 
 void template_block_ ();
-void func_enum(); //enumeration demonstration
-void output_manipulation();
-void func_file_read ();
-void func_file_write ();
-void func_string_manipulation ();
+
+void f_enum(); //enumeration demonstration
+void f_console_output_manipulation();
+void f_file_reading ();
+void f_file_writing ();
+void f_string_manipulation ();
 size_t get_size (const std::string &); //declaring functions with constant parameter
 void find();
 void showMemoryUsage(const string &);
 void unique_pointers();
+void shared_pointers();
 void floating_point();
 void scientific_fixed_notation();
 void working_with_boolean();
@@ -81,11 +84,13 @@ public:
 int main(int argc, const char * argv[]) {
 
 
-    showMemoryUsage("Start");
+    //showMemoryUsage("Start");
 
-    range_based_for_loop();
+    shared_pointers();
 
-    showMemoryUsage("End");
+    //range_based_for_loop();
+
+    //showMemoryUsage("End");
     
     return 0;
 }
@@ -146,17 +151,21 @@ void template_block_(){
     std::cout << "Hello Kadian" << std::endl;
     
 }
-void func_enum(){
+
+void f_enum(){
     //"enum class Month" must be used instead of "enum Month"
     enum class Month {Jan = 1, Feb, Mar, Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec};
 
-    //This is to ensure the scoped use of "Month" i.e "Month::Aug" instead of "Aug"
+    //This is to ensure the scoped use of "Month" i.e "Month::Aug" instead of the more global "Aug"
     Month myBirthMonth = Month::Aug;
     
     std::cout << "My Birth Month is : " << static_cast<int>(myBirthMonth) << std::endl;
 }
-void output_manipulation(){
+void f_console_output_manipulation(){
     //#include<iomanip>
+
+    //std::quoted - add quotation to string
+    std::cout << "Kevin" << std::quoted("string to be quoted") << "9" << std::endl;
 
     //std::setw - specify width
     std::cout << "Name" << std::setw(10) << "Age" << std::endl;
@@ -218,12 +227,14 @@ void output_manipulation(){
 
     
 }
-void func_file_read(){
+void f_file_reading(){
     
     fstream fs;
     string line;
-    //auto *ch = (char *) malloc(sizeof(char) * 200);
-    auto ch = std::make_unique<char>();
+    //char *ch = (char *) malloc(sizeof(char) * 200);
+    auto ch = std::make_unique<char>(20); //create a unique pointer owned exclusively by "ch"
+
+
 
 
     fs.open("log.txt", ios::in);
@@ -233,7 +244,8 @@ void func_file_read(){
         //fs.read(ch, sizeof(char));     //METHOD 2
         
         //fs >> ch;
-        //fs.read(ch, sizeof(char));
+
+
         
         /*while (!fs.eof()) {
             fs.read(ch, sizeof(ch));
@@ -245,11 +257,13 @@ void func_file_read(){
             std::cout << "Reading... : " << ch << std::endl;
             
         }*/
-        
+
+
         while (std::getline(fs, line)) {
             //fs.read(ch, sizeof(ch));
             //fs >> ch;
             //fs.getline(ch,10);
+
             
             //line.append(ch);
             
@@ -262,7 +276,7 @@ void func_file_read(){
     //std::cout << "File Data : " << line << std::endl;
     
 }
-void func_file_write (){
+void f_file_writing (){
     
     std::fstream fs;
     
@@ -276,7 +290,7 @@ void func_file_write (){
     
     fs.close();
 }
-void func_string_manipulation(){
+void f_string_manipulation(){
     
     std::cout << "Hello Kadian 3" << std::endl;
     
@@ -291,7 +305,7 @@ void find(){
 
 
 
-    auto it = m.find("Nemo");
+    auto it = m.find(lookup);
 
     std::cout << it->data();
 
@@ -310,23 +324,89 @@ void showMemoryUsage(const string &str)
     cout << std::endl << "(" << str << ")" << " Memory Usage : [" << memory << "] bytes" << std::endl;
 }
 void unique_pointers(){
+    //1 - A unique pointer may only have a single owner having no explicit copying operator
+    //2 - The memory being pointed to is freed automatically when the scope is left
+    //3 - When a var is passed by value to a function, it is copied, making this an invalid action when attempted directly
+    //3b - To pass by value (resulting in a var creation and the pointer being copied) the [std::move(ptr)] must be used
+    //3c - This results in the transfer of ownership meaning, when the function scope ends the memory is freed
+    //4 In order for the calling scope to retain ownership, the pointer must be passed by reference [&ptr]
+    //4b - Here it can be modified, and to avoid modification use const
+
+    auto str1 = make_unique<Student>() ;
+    auto str1_replacement = std::move(str1); //str1 ownership had to be transferred because it cannot be copied
+
+    Student h;
+
+    h.setName("gt");
+    cout << "Str 0 : " << h.getName() << std::endl;
+
+
+    //ERROR - str1 no longer owns the memory block containing the Student object, it is now nullptr
+    //str1->setName("kevin");
+
+    //CORRECT - only one owner can exist for a unique pointer (here it is)
+    str1_replacement->setName("kevin");
+
+
+    cout << "Str 1 : " << str1_replacement->getName() << std::endl;
+
+}
+void shared_pointers(){
+    //1 - A shared pointer may have many owners
+    //2 - The memory being pointed to is freed automatically when the scope is left (by all the owners)
+    //3 - When a var is passed by value to a function, it is copied, this is valid in the case of the shared pointer
+    //3b - To pass by value (resulting in a var creation and the pointer being copied)
+    //3c - This results in an additional ref to the memory, when the function scope ends for all, the memory is freed
+
+
     auto str1 = make_shared<Student>() ;
     auto str2 = make_shared<Student>() ;
 
+    //Notice 1: memory block of str2 is now shared by str3 using variable copy
+    //Notice 2: with variable copy str3 is a var created on the stack and points to the same space as str2
+    auto str3 = str2;
+
+    //Notice 3: to avoid creating a new var to copy to value to, an alias (reference) to str2 can be created instead
+    //Notice 4: str2 can now be modified via str4 without the overhead of an extra var on the stack,
+    //Also the reference count is not affected because this is not a new pointer, it's a reference to an existing one
+    auto &str4 = str2;
+
+
+    cout << str2.use_count() << endl;
+
+    //Notice 5: To prevent modification of str2 via str5, use a reference to a consts, avoiding the extra var and prevent mod
+     const auto &str5 = str2;
+
+    //Notice 6: All the shared pointers have to be out of scope before the memory can be freed
+
+    cout << str2.use_count() << endl;
+
+    //Final Notice : for weak pointers, the reference count (if there is one) is not incremented
+    //Therefore, the scope of this pointer does not affect the destruction of the memory
+    weak_ptr<Student> str6 = str2;
+
+    cout << str2.use_count() << endl;
+
+
+    Student h;
+
+    h.setName("gt");
+    cout << "Str 0 : " << h.getName() << std::endl;
 
 
     str1->setName("kevin");
-    //str2 = std::move(str1);
+    str2->setName("kevin 2 Memory data");
 
 
     cout << "Str 1 : " << str1->getName() << std::endl;
     cout << "Str 2 : " << str2->getName() << std::endl;
 
+    // str3 - is now pointing to memory block at str2 (both str2 and str3 has to be out of scope for block to be freed)
+    cout << "Str 3 : " << str3->getName() << std::endl;
+    cout << "Str 4 : " << str4->getName() << std::endl;
+    cout << "Str 5 : " << str5->getName() << std::endl;
 
-    //r = c + d;
 
-    cout << "Str 1 : " << str1->getName()  << " : Again" << std::endl;
-    cout << "Str 2 : " << str2->getName()  << " : Again" << std::endl;
 }
 void floating_point(){
     float num1{1.432345785746453465f}; // 7 precision
