@@ -28,6 +28,7 @@ void template_block_ ();
 
 void showMemoryUsage(const string &);
 
+class MyNormalClass; //This can be done to access class before it has been defined (not necessary)
 void f_enum(); //enumeration demonstration
 void f_console_output_manipulation();
 void f_file_reading ();
@@ -45,7 +46,8 @@ void f_math_functions();
 void f_range_for_loop();
 
 
-class Student
+
+class MyNormalClass
 {
 private:
     string name = {0};
@@ -53,30 +55,31 @@ private:
     //int gradDate;
     
 public:
+    MyNormalClass() = default;
+    ~MyNormalClass() = default;
     //void setName(const string &);
     //string getName() const;
 
 
     
     void setName(const string &nameIn){
-        //name = nameIn;
+        //Pass by Const Reference
+
+        //Benefits 1: A new var (nameIn) is not created on the stack the arg is accepted
+        //Benefits 2: The original value will not be modifiable
+
         this->name = nameIn;
     }
 
-    string getName() const{
+    string getName() const {
+        //Declare function as const
+
+        //Benefits 1: This asserts that the function will not modify member variables
+        //Example 1: [this->name = "new var";] would result in a compiler error
+
         return this->name;
     }
 };
-
-/*void Student::setName(string nameIn){
-    --name = nameIn;
-    this->name = nameIn;
-}*/
-
-/*string Student::getName() const {
-    //functions that don't mutate data must be declared as const
-    return name;
-}*/
 
 
 
@@ -338,10 +341,10 @@ void f_unique_pointers(){
     //4 In order for the calling scope to retain ownership, the pointer must be passed by reference [&ptr]
     //4b - Here it can be modified, and to avoid modification use const
 
-    auto str1 = make_unique<Student>() ;
+    auto str1 = make_unique<MyNormalClass>() ;
     auto str1_replacement = std::move(str1); //str1 ownership had to be transferred because it cannot be copied
 
-    Student h;
+    MyNormalClass h;
 
     h.setName("gt");
     cout << "Str 0 : " << h.getName() << std::endl;
@@ -366,8 +369,8 @@ void f_shared_pointers(){
     //3c - This results in an additional ref to the memory, when the function scope ends for all, the memory is freed
 
 
-    auto str1 = make_shared<Student>() ;
-    auto str2 = make_shared<Student>() ;
+    auto str1 = make_shared<MyNormalClass>() ;
+    auto str2 = make_shared<MyNormalClass>() ;
 
     //Notice 1: memory block of str2 is now shared by str3 using variable copy
     //Notice 2: with variable copy str3 is a var created on the stack and points to the same space as str2
@@ -390,12 +393,12 @@ void f_shared_pointers(){
 
     //Final Notice : for weak pointers, the reference count (if there is one) is not incremented
     //Therefore, the scope of this pointer (str6 the weak pointer to str2) does not affect the destruction of the memory of str2
-    weak_ptr<Student> str6 = str2;
+    weak_ptr<MyNormalClass> str6 = str2;
 
     cout << str2.use_count() << endl;
 
 
-    Student h;
+    MyNormalClass h;
 
     h.setName("gt");
     cout << "Str 0 : " << h.getName() << std::endl;
