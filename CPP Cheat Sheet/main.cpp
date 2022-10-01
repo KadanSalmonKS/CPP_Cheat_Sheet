@@ -26,22 +26,23 @@ using namespace std;
 
 void template_block_ ();
 
+void showMemoryUsage(const string &);
+
 void f_enum(); //enumeration demonstration
 void f_console_output_manipulation();
 void f_file_reading ();
 void f_file_writing ();
 void f_string_manipulation ();
-size_t get_size (const std::string &); //declaring functions with constant parameter
-void find();
-void showMemoryUsage(const string &);
-void unique_pointers();
-void shared_pointers();
-void floating_point();
-void scientific_fixed_notation();
-void working_with_boolean();
-void calculation_on_data();
-void working_with_math_functions();
-void range_based_for_loop();
+size_t f_string_size (const std::string &s); //declaring functions with constant parameter
+void f_set_lookup(); //container lookup
+void f_unique_pointers(); //smart  (unique)
+void f_shared_pointers(); //smart pointers (shared and weak)
+void f_floating_point();
+void f_scientific_fixed_notation();
+void f_working_with_boolean();
+void f_arithmetic_operators();
+void f_math_functions();
+void f_range_for_loop();
 
 
 class Student
@@ -86,13 +87,26 @@ int main(int argc, const char * argv[]) {
 
     //showMemoryUsage("Start");
 
-    shared_pointers();
+    f_shared_pointers();
 
     //range_based_for_loop();
 
     //showMemoryUsage("End");
     
     return 0;
+}
+
+
+
+
+
+
+
+
+void template_block_(){
+    
+    std::cout << "Hello Kadian" << std::endl;
+    
 }
 
 int main_test(){
@@ -142,14 +156,16 @@ int main_test(){
     cout << " sec" << endl;
     return 0;
 }
+void showMemoryUsage(const string &str)
+{
+    struct rusage usage{};
+    long memory = 0;
 
+    if(0 == getrusage(RUSAGE_SELF, &usage)){
+        memory = usage.ru_maxrss; // bytes
+    }
 
-
-
-void template_block_(){
-    
-    std::cout << "Hello Kadian" << std::endl;
-    
+    cout << std::endl << "(" << str << ")" << " Memory Usage : [" << memory << "] bytes" << std::endl;
 }
 
 void f_enum(){
@@ -295,10 +311,10 @@ void f_string_manipulation(){
     std::cout << "Hello Kadian 3" << std::endl;
     
 }
-size_t get_size (const std::string &s){
+size_t f_string_size (const std::string &s){
     return s.size();
 }
-void find(){
+void f_set_lookup(){
     std::set<std::string> m = {"Dory","Marlin","Nemo","Emo"};
 
     const std::string lookup = "Nemo";
@@ -312,18 +328,8 @@ void find(){
 
 
 }
-void showMemoryUsage(const string &str)
-{
-    struct rusage usage{};
-    long memory = 0;
+void f_unique_pointers(){
 
-    if(0 == getrusage(RUSAGE_SELF, &usage)){
-        memory = usage.ru_maxrss; // bytes
-    }
-
-    cout << std::endl << "(" << str << ")" << " Memory Usage : [" << memory << "] bytes" << std::endl;
-}
-void unique_pointers(){
     //1 - A unique pointer may only have a single owner having no explicit copying operator
     //2 - The memory being pointed to is freed automatically when the scope is left
     //3 - When a var is passed by value to a function, it is copied, making this an invalid action when attempted directly
@@ -351,7 +357,8 @@ void unique_pointers(){
     cout << "Str 1 : " << str1_replacement->getName() << std::endl;
 
 }
-void shared_pointers(){
+void f_shared_pointers(){
+    //#include <memory>
     //1 - A shared pointer may have many owners
     //2 - The memory being pointed to is freed automatically when the scope is left (by all the owners)
     //3 - When a var is passed by value to a function, it is copied, this is valid in the case of the shared pointer
@@ -382,7 +389,7 @@ void shared_pointers(){
     cout << str2.use_count() << endl;
 
     //Final Notice : for weak pointers, the reference count (if there is one) is not incremented
-    //Therefore, the scope of this pointer does not affect the destruction of the memory
+    //Therefore, the scope of this pointer (str6 the weak pointer to str2) does not affect the destruction of the memory of str2
     weak_ptr<Student> str6 = str2;
 
     cout << str2.use_count() << endl;
@@ -408,7 +415,7 @@ void shared_pointers(){
 
 
 }
-void floating_point(){
+void f_floating_point(){
     float num1{1.432345785746453465f}; // 7 precision
     double num2{1.453957848684205849384}; // 15 precision
     long double num3{1.44736454578475635343L}; // 15+ precision
@@ -424,7 +431,7 @@ void floating_point(){
     cout << "Number 3 is : " << num3 << endl;
 
 }
-void scientific_fixed_notation(){
+void f_scientific_fixed_notation(){
     // used for extremely large numbers
 
     double num1{1.45395784e8}; // = 145395784
@@ -439,7 +446,7 @@ void scientific_fixed_notation(){
 
 
 }
-void working_with_boolean(){
+void f_working_with_boolean(){
 
     bool red_light{false};
     bool green_light{true};
@@ -448,7 +455,7 @@ void working_with_boolean(){
     cout << "Green is : " << green_light << endl;
     cout << "Red is : " << red_light << endl;
 }
-void calculation_on_data(){
+void f_arithmetic_operators(){
 
     int num1{2};
     int num2{7};
@@ -488,7 +495,7 @@ void calculation_on_data(){
     cout << "Value is : " << value << endl; //value = 2
 
 }
-void working_with_math_functions(){
+void f_math_functions(){
 
     //#include<cmath>
 
@@ -511,7 +518,7 @@ void working_with_math_functions(){
 
 
 }
-void range_based_for_loop(){
+void f_range_for_loop(){
 
     //char message [] = {'H','e','l','l','o', '\0'};
     string message = {"Hello"};
@@ -524,3 +531,4 @@ void range_based_for_loop(){
 
 
 }
+
