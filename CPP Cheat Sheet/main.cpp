@@ -45,6 +45,8 @@ void f_arithmetic_operators();
 void f_math_functions();
 void f_range_for_loop();
 
+void f_bitwise_operations(); //working with bitwise operators (^, &, |, <<, >>, ~)
+void f_bit_masking_filtering(); //using bitwise operators for bit-masking to filter bits and extract data
 
 
 class MyNormalClass
@@ -90,9 +92,13 @@ int main(int argc, const char * argv[]) {
 
     //showMemoryUsage("Start");
 
-    f_shared_pointers();
+    int a = 5;
 
-    //range_based_for_loop();
+
+    f_bitwise_operations();
+
+
+
 
     //showMemoryUsage("End");
     
@@ -231,6 +237,12 @@ void f_console_output_manipulation(){
     std::cout << "dec val : " << std::dec << pos_int << std::endl; // Output : "dec val : 717171"
     std::cout << "hex val : " << std::hex << pos_int << std::endl; // Output : "hex val : af173"
     std::cout << "oct val : " << std::oct << pos_int << std::endl; // Output : "oct val : 2570563"
+
+    //#include <bitset>
+    pos_int = 5;
+    std::cout << "Binary val : " << std::bitset<8>(pos_int)  << std::endl; // Output : "Binary val : 00000101" - where pos_int = 5
+
+
 
     std::cout << std::showbase; //show the base if the value (0x, 0, etc)
     std::cout << "dec val : " << std::dec << pos_int << std::endl; // Output : "dec val : 717171"
@@ -535,3 +547,38 @@ void f_range_for_loop(){
 
 }
 
+void f_bitwise_operations() {
+    //BIT SHIFTING
+    int x = 5;
+    int y = 1;
+    int new_val;
+
+    new_val = x << y;                      // x shifted y bits to left (x * pow(2, y))
+    new_val = x >> y;                      // x shifted y bits to right (x / pow(2, y))
+
+    //bin 5 : 0101 << 1 becomes 1010 which is 12
+    //bin 5 : 0101 >> 1 becomes 0010 which is 2
+
+    //This would be faster
+    //Note: that this is NOT a very helpful replacement for base 10 integer * or /
+    //This is because the compiler would have already optimized this with the shift
+
+
+
+    //BIT MASKING V1 - the acts of sort of filter the bits (check f_bit_masking)
+    new_val = x & y;                       // Bitwise AND (3 & 6 is 2)
+    new_val = x ^ y;                       // Bitwise EXCLUSIVE OR (3 ^ 6 is 5) (each bit has to be different)
+    new_val = x | y;                       // Bitwise OR (3 | 6 is 7)
+
+    //bin 5 = 0101
+    //bin 1 = 0001
+    //bin (5 & 1) = 0001 = 1 - bits have to both be 1
+    //bin (5 ^ 1) = 0100 = 4 - bits have to both be different
+    //bin (5 | 1) = 0101 = 5 - at least one bit must be 1
+
+    cout << (5 | 1) << endl;
+}
+
+void f_bit_masking_filtering() {
+
+}
