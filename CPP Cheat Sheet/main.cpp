@@ -46,7 +46,7 @@ void f_math_functions();
 void f_range_for_loop();
 
 void f_bitwise_operations(); //working with bitwise operators (^, &, |, <<, >>, ~)
-void f_bit_masking_filtering(); //using bitwise operators for bit-masking to filter bits and extract data
+__attribute__((unused)) void f_bit_masking_filtering(); //using bitwise operators for bit-masking to filter bits and extract data
 
 
 class MyNormalClass
@@ -92,10 +92,9 @@ int main(int argc, const char * argv[]) {
 
     //showMemoryUsage("Start");
 
-    int a = 5;
 
 
-    f_bitwise_operations();
+    f_bit_masking_filtering();
 
 
 
@@ -569,16 +568,46 @@ void f_bitwise_operations() {
     new_val = x & y;                       // Bitwise AND (3 & 6 is 2)
     new_val = x ^ y;                       // Bitwise EXCLUSIVE OR (3 ^ 6 is 5) (each bit has to be different)
     new_val = x | y;                       // Bitwise OR (3 | 6 is 7)
+    new_val = ~x;                       // Bitwise OR (~5 is -6)
 
     //bin 5 = 0101
     //bin 1 = 0001
-    //bin (5 & 1) = 0001 = 1 - bits have to both be 1
-    //bin (5 ^ 1) = 0100 = 4 - bits have to both be different
+    //bin (5 & 1) = 0001 = 1 - bits have to both be 1 (used for bit-masking)
+    //bin (5 ^ 1) = 0100 = 4 - bits have to both be different (can be used to get unique bits from numbers)[num1 ^ num1 = 0]
     //bin (5 | 1) = 0101 = 5 - at least one bit must be 1
+    //bin (~5) = [1111] (flipped sign bits) 1010 = -6 - all the bits are flipped including the sign bit (Decimal from signed 2's complement)
 
-    cout << (5 | 1) << endl;
+    cout << (~5) << endl;
 }
 
 void f_bit_masking_filtering() {
+    //bitmask AND can be used to mask/filter out selective bits
+    //For Example : 101100101, if I wanted the state of a specific bit (4th bit)
+    //First construct a number to act as a mask to select its bit (000010000) (1 << 4) <- the 4th is the bit to be extracted (from right starting at 0 index)
+
+    //Create Mask for ith bit
+    //(1 << [ith])
+
+    //Extracting bit using a mask with the AND (&)
+    //Changing bit using a mask with the OR (&)
+    //Clearing bit using mask then NOT then AND *
+
+
+    //if the result is 000100000 then we know the bit at that position is 1 (1 & 1 = 1)
+    //if not, then its state is 0
+
+    int a = 0xFF;
+    int b5 = 0b00000101;
+    int b7 = 0b00000111;
+
+    int bmask = 0b00000010;
+    int bnew = 0b00000001;
+
+    cout << (b5 ^ b7 ^ b7) << endl;
+
+
+
+
+
 
 }
