@@ -82,29 +82,47 @@ public:
     }
 };
 
-//todo : create an interface
+
 class ButtonListener{
 
-private:
-    std::string name = std::string("Button");
+//private:
+    //test
 
 public:
     ButtonListener(){
-        std::cout << "Button Created" << std::endl;
+        std::cout << "Listener Created" << std::endl;
     };
-
     ~ButtonListener(){
-        std::cout << "Button Destroyed" << std::endl;
+        std::cout << "Listener Destroyed" << std::endl;
     };
 
     virtual void onClick(){
-        std::cout << "Button Clicked : (" << name << ")" << std::endl;
+        std::cout << "Default Button Clicked" << std::endl;
     }
+};
+
+class Button{
+
+private:
+    std::string name = std::string("Button");
+    ButtonListener *listener;
+
+
+public:
+    Button(){
+        std::cout << "Button Created" << std::endl;
+    };
+    ~Button(){
+        std::cout << "Button Destroyed" << std::endl;
+    };
+
+    /*virtual void onClick(){
+        std::cout << "Button Clicked : (" << name << ")" << std::endl;
+    }*/
 
     std::string getName(){
         return this->name;
     }
-
     void setName(const std::string &new_name){
         this->name = new_name;
     }
@@ -113,17 +131,20 @@ public:
 
 
 int main(int argc, const char * argv[]) {
-
-
     //showMemoryUsage("Start");
-
-
-
-
     //std::cout << "A = " << x << "\nB = " << y << endl;
-
-
     //showMemoryUsage("End");
+
+    Button btn;
+    //ButtonListener listener;
+
+    //listener.setName("test");
+
+
+    //std::cout << listener.getName() << std::endl;
+
+
+
     
     return 0;
 }
