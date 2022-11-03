@@ -44,9 +44,8 @@ void f_working_with_boolean();
 void f_arithmetic_operators();
 void f_math_functions();
 void f_range_for_loop();
-
 void f_bitwise_operations(); //working with bitwise operators (^, &, |, <<, >>, ~)
-__attribute__((unused)) void f_bit_masking_filtering(); //using bitwise operators for bit-masking to filter bits and extract data
+void f_bit_masking_filtering(); //using bitwise operators for bit-masking to filter bits and extract data
 
 
 class MyNormalClass
@@ -83,8 +82,34 @@ public:
     }
 };
 
+//todo : create an interface
+class ButtonListener{
 
+private:
+    std::string name = std::string("Button");
 
+public:
+    ButtonListener(){
+        std::cout << "Button Created" << std::endl;
+    };
+
+    ~ButtonListener(){
+        std::cout << "Button Destroyed" << std::endl;
+    };
+
+    virtual void onClick(){
+        std::cout << "Button Clicked : (" << name << ")" << std::endl;
+    }
+
+    std::string getName(){
+        return this->name;
+    }
+
+    void setName(const std::string &new_name){
+        this->name = new_name;
+    }
+
+};
 
 
 int main(int argc, const char * argv[]) {
@@ -94,9 +119,8 @@ int main(int argc, const char * argv[]) {
 
 
 
-    f_bit_masking_filtering();
 
-
+    //std::cout << "A = " << x << "\nB = " << y << endl;
 
 
     //showMemoryUsage("End");
@@ -545,7 +569,6 @@ void f_range_for_loop(){
 
 
 }
-
 void f_bitwise_operations() {
     //BIT SHIFTING
     int x = 5;
@@ -579,7 +602,6 @@ void f_bitwise_operations() {
 
     cout << (~5) << endl;
 }
-
 void f_bit_masking_filtering() {
     //bitmask AND can be used to mask/filter out selective bits
     //For Example : 101100101, if I wanted the state of a specific bit (4th bit)
@@ -598,16 +620,12 @@ void f_bit_masking_filtering() {
 
     int a = 0xFF;
     int b5 = 0b00000101;
+    int b6 = 0b00000100;
     int b7 = 0b00000111;
 
     int bmask = 0b00000010;
     int bnew = 0b00000001;
 
-    cout << (b5 ^ b7 ^ b7) << endl;
-
-
-
-
-
+    cout << ((1 << 2) & b7) << endl;
 
 }
