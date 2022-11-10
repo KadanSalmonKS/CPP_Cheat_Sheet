@@ -48,6 +48,19 @@ void f_bitwise_operations(); //working with bitwise operators (^, &, |, <<, >>, 
 void f_bit_masking_filtering(); //using bitwise operators for bit-masking to filter bits and extract data
 
 
+//declare function callbacks externally
+using ClickListener = std::function<void()>;
+using ClickListenerVar = std::function<void(int)>;
+using ClickListenerVarFunc = void (*)(int); //function, accept int, return void
+
+const ClickListener listenerLambdaGlobal = [](){
+    cout << "Hello Kadian Lambda Outside" << endl;
+};
+void processClickFunc(int a){
+    cout << "Pre-existing OnClick Handler!! : " << a << endl;
+}
+
+
 class MyNormalClass
 {
 private:
@@ -62,8 +75,16 @@ public:
     //string getName() const;
 
 
+    void setNameByValue(string nameIn){
+        //Pass by Value
+
+        //Benefits 1: A new var (nameIn) is created on the stack the arg is accepted
+        //Benefits 2: The original value will not be modifiable
+
+        this->name = nameIn;
+    }
     
-    void setName(const string &nameIn){
+    void setNameByConstReference(const string &nameIn){
         //Pass by Const Reference
 
         //Benefits 1: A new var (nameIn) is not created on the stack the arg is accepted
@@ -81,44 +102,37 @@ public:
         return this->name;
     }
 };
-
-
-class ButtonListener{
-
-//private:
-    //test
+class MyAbstractClassWithVirtualFunc{
 
 public:
-    ButtonListener(){
+    MyAbstractClassWithVirtualFunc(){
         std::cout << "Listener Created" << std::endl;
     };
-    ~ButtonListener(){
+    ~MyAbstractClassWithVirtualFunc(){
         std::cout << "Listener Destroyed" << std::endl;
     };
 
-    virtual void onClick(){
+    virtual void onClick(){ //can be overridden in derived class
         std::cout << "Default Button Clicked" << std::endl;
     }
-};
 
-class Button{
+    virtual void onClickPureVirtual() = 0; //declares this class as an abstract because it cannot be instantiated
+};
+class MyButtonWithCallbackClass{
 
 private:
     std::string name = std::string("Button");
-    ButtonListener *listener;
+    ClickListener clickListener;
+    ClickListenerVar clickListenerVar;
 
 
 public:
-    Button(){
+    MyButtonWithCallbackClass(){
         std::cout << "Button Created" << std::endl;
     };
-    ~Button(){
+    ~MyButtonWithCallbackClass(){
         std::cout << "Button Destroyed" << std::endl;
     };
-
-    /*virtual void onClick(){
-        std::cout << "Button Clicked : (" << name << ")" << std::endl;
-    }*/
 
     std::string getName(){
         return this->name;
@@ -127,21 +141,252 @@ public:
         this->name = new_name;
     }
 
+
+    void addOnClick(const ClickListener &listener){
+
+        this->clickListener = listener;
+
+        std::cout << "Click Listener Added" << std::endl;
+    }
+    void addOnClick(const ClickListenerVar &listener){
+
+        this->clickListenerVar = listener;
+
+        std::cout << "Click ListenerVar Added" << std::endl;
+    }
+
+
+    void performClick(){
+
+        if (this->clickListener){
+            this->clickListener();
+            std::cout << "Manual Click" << std::endl;
+        }
+
+    }
+    void performClick(int num){
+
+        if (this->clickListenerVar){
+            this->clickListenerVar(num);
+            std::cout << "Manual Click Var" << std::endl;
+        }
+
+    }
+
 };
+class MyFunctionOverloadClass{
+
+private:
+    std::string name = std::string("Button");
+    ClickListener clickListener;
+    ClickListenerVar clickListenerVar;
+
+
+public:
+    MyFunctionOverloadClass(){
+        std::cout << "Button Created" << std::endl;
+    };
+    ~MyFunctionOverloadClass(){
+        std::cout << "Button Destroyed" << std::endl;
+    };
+
+    std::string getName(){
+        return this->name;
+    }
+    void setName(const std::string &new_name){
+        this->name = new_name;
+    }
+
+
+    //overloaded functions - same functions, different parameter
+    void addOnClick(const ClickListener &listener){
+
+        this->clickListener = listener;
+
+        std::cout << "Click Listener Added" << std::endl;
+    }
+    void addOnClick(const ClickListenerVar &listener){
+
+        this->clickListenerVar = listener;
+
+        std::cout << "Click ListenerVar Added" << std::endl;
+    }
+
+
+    //overloaded functions - same functions, different parameter
+    void performClick(){
+
+        if (this->clickListener){
+            this->clickListener();
+            std::cout << "Manual Click" << std::endl;
+        }
+
+    }
+    void performClick(int num){
+
+        if (this->clickListenerVar){
+            this->clickListenerVar(num);
+            std::cout << "Manual Click Var" << std::endl;
+        }
+
+    }
+
+};
+class MyOperatorOverloadClassPoint{
+
+    //Operator overriding allows the redefinition of operators for handling class
+
+private:
+    int x = 0;
+    //int y = 0;
+
+public:
+    MyOperatorOverloadClassPoint() {}
+    MyOperatorOverloadClassPoint(int x1) : x(x1) {} //declare argument list
+
+    ~MyOperatorOverloadClassPoint() {
+
+    }
+
+
+    MyOperatorOverloadClassPoint operator +(const MyOperatorOverloadClassPoint &p2) const {
+        auto sum = MyOperatorOverloadClassPoint(this->x + p2.x);
+
+        return sum;
+    }
+
+    MyOperatorOverloadClassPoint operator -(const MyOperatorOverloadClassPoint &p2) const {
+        auto sub = MyOperatorOverloadClassPoint( this->x - p2.x);
+
+        return sub;
+    }
+
+    void operator +=(const MyOperatorOverloadClassPoint &p2) {
+        this->x = this->x + p2.x;
+    }
+
+    void operator -=(const MyOperatorOverloadClassPoint &p2) {
+        this->x = this->x - p2.x;
+    }
+
+    MyOperatorOverloadClassPoint operator ++() { //++val - pre increment then return
+        this->x = this->x + 1;
+
+        return *this;
+    }
+
+    MyOperatorOverloadClassPoint operator ++(int) { //val++ - post return then inc value
+        auto current = *this;
+
+        this->x = this->x + 1;
+
+        return current;
+    }
+
+    //void operator (++) {
+        //this->x = this->x + 1;
+    //}
+
+
+    int getX() const {
+        return this->x;
+    }
+
+    void setX(const int &x1){
+        this->x = x1;
+    }
+
+    void printX() const {
+        cout << "X = " << this->x << endl;
+    }
+    void printX(const string &label) const {
+        cout << label << " = " << this->x << endl;
+    }
+
+
+
+};
+
+
+
+//instantiate function / lambda callback
+void instantiateButtonWithListener(){
+
+    //declare function callbacks externally
+    //using ClickListener = std::function<void()>;
+    //using ClickListenerVar = std::function<void(int)>;
+    //using ClickListenerVarFunc = void (*)(int); //function, accept int, return void
+
+    auto btn = MyButtonWithCallbackClass();
+
+    ClickListener listenerLambda = [](){
+        cout << "Hello Kadian Lambda" << endl;
+    };
+    ClickListenerVar listenerLambdaVar = [](int my_num){
+        cout << "Hello Kadian Lambda Var : " << my_num << endl;
+    };
+
+    //btn.addOnClick(listenerLambda);
+    btn.addOnClick([](){
+        cout << "Hello Kadian Inline Lambda" << endl;
+    });
+    //btn.addOnClick(listenerLambdaGlobal);
+    //btn.addOnClick(processClickFunc);
+
+    btn.performClick();
+}
+
+
+//instantiate operator overload
+void instantiateOperatorOverload(){
+    auto p1 = MyOperatorOverloadClassPoint(2);
+    auto p2 = MyOperatorOverloadClassPoint(3);
+    auto p3 = MyOperatorOverloadClassPoint(1);
+
+    auto p_sum = MyOperatorOverloadClassPoint();
+    auto p_sub = MyOperatorOverloadClassPoint();
+    auto post_inc = MyOperatorOverloadClassPoint();
+    auto pre_inc = MyOperatorOverloadClassPoint();
+
+    p1.printX("P1");
+    //p2.printX("P2");
+
+    p_sum = p1 + p2;
+    p_sub = p2 - p1;
+
+    //p1 += p2;
+    //p1 -= p2;
+    //++p1;
+    //p1++;
+
+    //pre_inc = ++p1; //inc then return value
+    post_inc = p1++; //return then inc value
+
+    //p1.setX(10);
+    //pre_inc.setX(10);
+
+    //p_sum.printX("(p1 + p2) : Sum");
+    //p_sub.printX("(p2 - p1) : Sub");
+
+    //p1.printX("(p1 += p2) : P1");
+    //p1.printX("(p1 -= p2) : P1");
+    //pre_inc.printX("Pre Inc");
+    post_inc.printX("Post Inc");
+    p1.printX("New Inc P1");
+}
+
 
 
 int main(int argc, const char * argv[]) {
     //showMemoryUsage("Start");
     //std::cout << "A = " << x << "\nB = " << y << endl;
     //showMemoryUsage("End");
-
-    Button btn;
-    //ButtonListener listener;
-
-    //listener.setName("test");
+    int x = 1;
 
 
-    //std::cout << listener.getName() << std::endl;
+
+
+
 
 
 
@@ -402,7 +647,7 @@ void f_unique_pointers(){
 
     MyNormalClass h;
 
-    h.setName("gt");
+    h.setNameByConstReference("gt");
     cout << "Str 0 : " << h.getName() << std::endl;
 
 
@@ -410,7 +655,7 @@ void f_unique_pointers(){
     //str1->setName("kevin");
 
     //CORRECT - only one owner can exist for a unique pointer (here it is)
-    str1_replacement->setName("kevin");
+    str1_replacement->setNameByConstReference("kevin");
 
 
     cout << "Str 1 : " << str1_replacement->getName() << std::endl;
@@ -456,12 +701,12 @@ void f_shared_pointers(){
 
     MyNormalClass h;
 
-    h.setName("gt");
+    h.setNameByConstReference("gt");
     cout << "Str 0 : " << h.getName() << std::endl;
 
 
-    str1->setName("kevin");
-    str2->setName("kevin 2 Memory data");
+    str1->setNameByConstReference("kevin");
+    str2->setNameByConstReference("kevin 2 Memory data");
 
 
     cout << "Str 1 : " << str1->getName() << std::endl;
