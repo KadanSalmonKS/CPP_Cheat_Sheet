@@ -261,14 +261,6 @@ public:
         return sub;
     }
 
-    void operator +=(const MyOperatorOverloadClassPoint &p2) {
-        this->x = this->x + p2.x;
-    }
-
-    void operator -=(const MyOperatorOverloadClassPoint &p2) {
-        this->x = this->x - p2.x;
-    }
-
     MyOperatorOverloadClassPoint operator ++() { //++val - pre increment then return
         this->x = this->x + 1;
 
@@ -283,9 +275,14 @@ public:
         return current;
     }
 
-    //void operator (++) {
-        //this->x = this->x + 1;
-    //}
+    void operator +=(const MyOperatorOverloadClassPoint &p2) {
+        this->x = this->x + p2.x;
+    }
+
+    void operator -=(const MyOperatorOverloadClassPoint &p2) {
+        this->x = this->x - p2.x;
+    }
+
 
 
     int getX() const {
@@ -302,9 +299,6 @@ public:
     void printX(const string &label) const {
         cout << label << " = " << this->x << endl;
     }
-
-
-
 };
 
 
