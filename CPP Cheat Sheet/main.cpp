@@ -370,6 +370,17 @@ void instantiateOperatorOverload(){
 }
 
 
+//Multiple Function Argument
+void printSum(initializer_list<int> int_list){
+    int sum = 0;
+
+    for (auto &element : int_list) {
+        sum += element;
+    }
+
+    cout << "Sum : " << sum << endl;
+}
+
 
 int main(int argc, const char * argv[]) {
     //showMemoryUsage("Start");
@@ -378,8 +389,7 @@ int main(int argc, const char * argv[]) {
     int x = 1;
 
 
-
-
+    printSum({1, 2});
 
 
 
