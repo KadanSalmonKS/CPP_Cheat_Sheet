@@ -379,6 +379,8 @@ void printSum(initializer_list<int> int_list){
     }
 
     cout << "Sum : " << sum << endl;
+
+    //Usage : printSum({1, 2});
 }
 
 
@@ -389,7 +391,7 @@ int main(int argc, const char * argv[]) {
     int x = 1;
 
 
-    printSum({1, 2});
+
 
 
 
