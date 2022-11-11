@@ -324,6 +324,7 @@ public:
 
 };
 
+//declaration of namespaces to distinguish two different versions of divideWithException
 namespace MainExceptionString{
     //throw exceptions from function const string
     int divideWithException(int dividend, int divisor){
@@ -354,7 +355,6 @@ namespace MainExceptionString{
          */
     }
 };
-
 namespace MainExceptionClass{
     //throw exceptions from function class
     int divideWithException(int dividend, int divisor){
@@ -389,6 +389,8 @@ namespace MainExceptionClass{
          */
     }
 }
+
+
 
 
 
