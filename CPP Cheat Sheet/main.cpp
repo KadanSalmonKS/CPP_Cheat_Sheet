@@ -391,7 +391,43 @@ namespace MainExceptionClass{
 }
 
 
+//Templates allowing variable data types being passed as arguments to classes, functions
+//This operates like a macro where at compile time, the function/class
+//is generated to match the types used in the function/class call
+//Templates
+namespace TempNoVar{
+    //function template
+    template<typename T_type>
+    void maxArg(T_type x1, T_type x2){
 
+        if (x1 > x2){
+            cout << x1 << " > " << x2 << endl;
+        }
+        else{
+            cout << x1 << " < " << x2 << endl;
+        }
+
+    }
+
+    //Usage : TempNoVar::maxArg<int>(66, 65);
+}
+namespace TempExtraVar{
+    //function template with var
+    template<typename T_type, int extra = 0>
+    void maxArg(T_type x1, T_type x2){
+
+        if (x1 > x2){
+            cout << "(" << x1 << " > " << x2 << ") : " << extra << endl;
+        }
+        else{
+            cout << "(" << x1 << " < " << x2 << ") : " << extra << endl;
+        }
+
+    }
+
+
+    //Usage : TempExtraVar::maxArg<int,33>(4,19);
+}
 
 
 
@@ -481,7 +517,10 @@ int main(int argc, const char * argv[]) {
     //showMemoryUsage("Start");
     //std::cout << "A = " << x << "\nB = " << y << endl;
     //showMemoryUsage("End");
-    int x = 1;
+
+
+
+
 
 
     
