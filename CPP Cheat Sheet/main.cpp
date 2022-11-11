@@ -428,6 +428,36 @@ namespace TempExtraVar{
 
     //Usage : TempExtraVar::maxArg<int,33>(4,19);
 }
+namespace TempExtraClass{
+    //function template with var
+    template<typename T_type>
+    class Compare {
+
+    private:
+        T_type x1;
+        T_type x2;
+
+    public:
+        Compare(T_type x, T_type y) : x1(x), x2(y){}
+
+        void maxArg(){
+
+            if (x1 > x2){
+                cout << "(" << x1 << " > " << x2 << ") : " << endl;
+            }
+            else{
+                cout << "(" << x1 << " < " << x2 << ") : " << endl;
+            }
+
+        }
+
+    };
+
+    //Usage :
+    // TempExtraClass::Compare<char> cp(65, 69);
+    // cp.maxArg();
+}
+
 
 
 
@@ -517,6 +547,7 @@ int main(int argc, const char * argv[]) {
     //showMemoryUsage("Start");
     //std::cout << "A = " << x << "\nB = " << y << endl;
     //showMemoryUsage("End");
+
 
 
 
