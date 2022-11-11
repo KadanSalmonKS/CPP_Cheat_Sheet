@@ -243,8 +243,13 @@ private:
     //int y = 0;
 
 public:
-    MyOperatorOverloadClassPoint() {}
-    MyOperatorOverloadClassPoint(int x1) : x(x1) {} //declare argument list
+    //by using explicit, constant data types are not implicitly converted to this Class
+    //during an operation like (p1 == 3), in which case 3 would be implicitly converted to MyOperatorOverloadClassPoint
+    //explicit then requires "explicit" conversion to MyOperatorOverloadClassPoint
+    //like (p1 == (MyOperatorOverloadClassPoint) 3)
+    explicit MyOperatorOverloadClassPoint() = default;
+
+    explicit MyOperatorOverloadClassPoint(int x1) : x(x1) {} //declare argument list
 
     ~MyOperatorOverloadClassPoint() {
 
@@ -283,6 +288,11 @@ public:
 
     void operator -=(const MyOperatorOverloadClassPoint &p2) {
         this->x = this->x - p2.x;
+    }
+
+    // Conversion operator: return float value of MyOperatorOverloadClassPoint
+    explicit operator int() const{
+        return float(x);
     }
 
 
