@@ -48,6 +48,7 @@ void f_bitwise_operations(); //working with bitwise operators (^, &, |, <<, >>, 
 void f_bit_masking_filtering(); //using bitwise operators for bit-masking to filter bits and extract data
 
 
+
 //declare function callbacks externally
 using ClickListener = std::function<void()>;
 using ClickListenerVar = std::function<void(int)>;
@@ -59,6 +60,7 @@ const ClickListener listenerLambdaGlobal = [](){
 void processClickFunc(int a){
     cout << "Pre-existing OnClick Handler!! : " << a << endl;
 }
+
 
 
 class MyNormalClass
@@ -300,6 +302,85 @@ public:
         cout << label << " = " << this->x << endl;
     }
 };
+class MyExceptionClass : public std::exception{
+
+public:
+    MyExceptionClass() = default;
+
+    const char * divError() const throw() {
+        return "Exception : Cannot divide by zero - ex";
+    }
+
+
+};
+
+namespace MainExceptionString{
+    //throw exceptions from function const string
+    int divideWithException(int dividend, int divisor){
+        int quotient = 0;
+
+        if (divisor == 0){
+            throw "Exception : Cannot divide by zero";
+        }
+
+        quotient = dividend / divisor;
+
+        return quotient;
+
+        /**
+         * @usage
+            int quotient = 0;
+
+            try {
+                quotient = divideWithException(10, 0);
+            }
+            catch (const char *ex) {
+
+                cout << ex << endl;
+
+            }
+
+            cout << "Quotient : " << quotient << endl;
+         */
+    }
+};
+
+namespace MainExceptionClass{
+    //throw exceptions from function class
+    int divideWithException(int dividend, int divisor){
+        int quotient = 0;
+
+        if (divisor == 0){
+
+            MyExceptionClass ex;
+
+            throw ex;
+
+        }
+
+        quotient = dividend / divisor;
+
+        return quotient;
+
+        /**
+         * @usage
+            int quotient = 0;
+
+            try {
+                quotient = MainExceptionClass::divideWithException(10, 0);
+            }
+            catch (const MyExceptionClass &myExceptionClass) {
+
+                cout << myExceptionClass.divError() << endl;
+
+            }
+
+            cout << "Quotient : " << quotient << endl;
+         */
+    }
+}
+
+
 
 
 
@@ -389,11 +470,6 @@ int main(int argc, const char * argv[]) {
     //std::cout << "A = " << x << "\nB = " << y << endl;
     //showMemoryUsage("End");
     int x = 1;
-
-
-
-
-
 
 
     
