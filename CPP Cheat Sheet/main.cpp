@@ -553,8 +553,6 @@ int main(int argc, const char * argv[]) {
 
 
 
-
-    
     return 0;
 }
 
@@ -1041,7 +1039,7 @@ void f_bit_masking_filtering() {
     //(1 << [ith])
 
     //Extracting bit using a mask with the AND (&)
-    //Changing bit using a mask with the OR (&)
+    //Changing bit using a mask with the OR (|)
     //Clearing bit using mask then NOT then AND *
 
 
