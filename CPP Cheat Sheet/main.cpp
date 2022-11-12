@@ -17,6 +17,7 @@
 #include <chrono>
 #include <vector>
 #include <memory>
+#include <initializer_list>
 
 #include <sys/resource.h>
 
