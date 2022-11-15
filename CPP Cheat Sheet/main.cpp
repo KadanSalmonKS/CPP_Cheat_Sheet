@@ -18,6 +18,7 @@
 #include <vector>
 #include <memory>
 #include <initializer_list>
+#include <bitset>
 
 #include <sys/resource.h>
 
@@ -553,7 +554,6 @@ int main(int argc, const char * argv[]) {
 
 
 
-
     return 0;
 }
 
@@ -1056,5 +1056,138 @@ void f_bit_masking_filtering() {
     int bnew = 0b00000001;
 
     cout << ((1 << 2) & b7) << endl;
+
+
+
+
+    u_char flag{0b0000'0000};
+    bitset<8> flag2{0b0000'0010};
+
+    u_char mask0{0b0000'0001}; //bit 0
+    u_char mask1{0b0000'0010}; //bit 1
+    u_char mask2{0b0000'0100}; //bit 2
+
+    u_char isHungry{1 << 0}; //bit 0
+    u_char isHappy{1 << 1}; //bit 1
+    u_char isSad{1 << 2}; //bit 2
+
+    u_char my_mood{}; //my mood flag
+
+    my_mood |= (isHappy | isHungry); //im happy and hungry
+    //my_mood &= ~isHappy; //no longer happy
+
+    std::cout << "I am happy : " << boolalpha << (bool)(my_mood & isHappy) << endl;
+
+
+
+    std::cout << "flag is " << bitset<8>(flag) << endl;
+    std::cout << "my_mood flag size is " << sizeof my_mood << endl;
+    std::cout << "flag2 bit 1 is " << (flag2.test(1) ? "on\n" : "off\n" ) << endl;
+
+    //bitset function NOTICE :
+    //bitset function work for single bits
+    //While the bitwise operations allow for setting multiple bits at once : flag |= (mask1 | mask2);
+
+    //cout << bitset<8>(mask0) << endl;
+    //cout << bitset<8>(mask1) << endl;
+
+
+    flag = mask0;
+    flag |= mask1; //single set
+    //flag |= (mask1 | mask2); //multiple set
+
+    //flag &= ~mask1; // turn off bit 2
+
+    //flag ^= mask2; // flip single bit 2
+    flag ^= (mask2 | mask1); // flip multiple bit 2
+
+
+    //((flag & mask0) ? "on\n" : "off\n" ); //testing bit
+    std::cout << bitset<8>(flag) << " : mask 0 is " << ((flag & mask0) ? "on\n" : "off\n" );
+    std::cout << bitset<8>(flag) << " : mask 1 is " << ((flag & mask1) ? "on\n" : "off\n");
+    std::cout << bitset<8>(flag) << " : mask 2 is " << ((flag & mask2) ? "on\n" : "off\n");
+
+
+    std::cout << "flag is " << bitset<8>(flag) << endl;
+
+
+    //Extra credit: why are the following two lines identical?
+
+    //myflags &= ~(option4 | option5); // turn options 4 and 5 off
+    //myflags &= ~option4 & ~option5; // turn options 4 and 5 off
+    //De Morgan’s law says that if we distribute a NOT, we need to flip ORs and ANDs to the other. So ~(option4 | option5) becomes ~option4 & ~option5.
+
+
+    constexpr std::uint32_t redBits{ 0xFF000000 };
+    constexpr std::uint32_t greenBits{ 0x00FF0000 };
+    constexpr std::uint32_t blueBits{ 0x0000FF00 };
+    constexpr std::uint32_t alphaBits{ 0x000000FF };
+
+    std::cout << "Enter a 32-bit RGBA color value in hexadecimal (e.g. FF7F3300): ";
+    std::uint32_t pixel{};
+    std::cin >> std::hex >> pixel; // std::hex allows us to read in a hex value
+
+    // use Bitwise AND to isolate red pixels,
+    // then right shift the value into the lower 8 bits
+    std::uint8_t red{ static_cast<std::uint8_t>((pixel & redBits) >> 24) };
+    std::uint8_t green{ static_cast<std::uint8_t>((pixel & greenBits) >> 16) };
+    std::uint8_t blue{ static_cast<std::uint8_t>((pixel & blueBits) >> 8) };
+    std::uint8_t alpha{ static_cast<std::uint8_t>(pixel & alphaBits) };
+
+    std::cout << "Your color contains:\n";
+    std::cout << std::hex; // print the following values in hex
+    std::cout << static_cast<int>(red)   << " red\n";
+    std::cout << static_cast<int>(green) << " green\n";
+    std::cout << static_cast<int>(blue)  << " blue\n";
+    std::cout << static_cast<int>(alpha) << " alpha\n";
+
+
+
+    //COLOR
+    //=====
+
+    //HEXADECIMAL
+    //bits can be represented by a digit from 0-F.
+    //0 0000
+    //1 0001
+    //2 0010
+    //3 0011
+    //4 0100
+    //5 0101
+    //6 0110
+    //7 0111
+    //8 1000
+    //9 1001
+    //A 1010
+    //B 1011
+    //C 1100
+    //D 1101
+    //E 1110
+    //F 1111
+
+
+    //0xFF30737F
+    //FF full opacity
+    //30 some red
+    //73 more green
+    //7F about the same blue as green
+
+    //A mask of 0x000000FF will reveal the last eight bits.
+    //0xFF30737F
+
+    //& 0x000000FF
+    //0x0000007F
+    //If you mask a color with 0x000000FF (0xFF for short), the result will be the blue.
+
+    //A= (theColor>>32) & 0xFF;
+    //R= (theColor>>16) & 0xFF;
+    //G= (theColor>>8) & 0xFF;
+    //B= theColor & 0xFF;
+
+
+
+
+
+
 
 }
