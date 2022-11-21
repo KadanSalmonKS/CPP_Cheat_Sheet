@@ -19,6 +19,8 @@
 #include <memory>
 #include <initializer_list>
 #include <bitset>
+#include <array>
+#include <compare>
 
 #include <sys/resource.h>
 
@@ -326,6 +328,10 @@ public:
 
 };
 
+class ConsoleLogger;
+
+
+
 //declaration of namespaces to distinguish two different versions of divideWithException
 namespace MainExceptionString{
     //throw exceptions from function const string
@@ -544,12 +550,171 @@ void printSum(initializer_list<int> int_list){
     //Usage : printSum({1, 2});
 }
 
+//quick sort
+void quick_sort(){
+    const int ARRAY_SIZE = 11;
+
+    //std::array<int, ARRAY_SIZE> a1 = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
+    std::vector<int> a2 = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
+
+    qsort(a2.data(),a2.size(), sizeof(decltype(a2)::value_type), [](const void* x, const void* y) {
+        return (*(int*)x - *(int*)y); //ascending order
+    });
+}
+
+
+/**
+ * ConsoleLogger
+ * @uses - This is used to report how long a block of code takes to execute
+ */
+class ConsoleLogger{
+
+private:
+    chrono::time_point<chrono::steady_clock, chrono::duration<long long, ratio<1, 1000000000>>> start;
+    chrono::time_point<chrono::steady_clock, chrono::duration<long long, ratio<1, 1000000000>>> end;
+    long double  time_taken = 0;
+    string label = "scope";
+    bool is_running = false;
+
+
+public:
+    ConsoleLogger(){
+        //cout << endl;
+        //cout << "Time Logger Created";
+        //cout << endl;
+    };
+    ~ConsoleLogger(){
+        //cout << endl;
+        //cout << "Time Logger Destroyed";
+        //cout << endl;
+    };
+
+    void timerStart(const string &label_ = {}){
+        start = chrono::high_resolution_clock::now();
+
+        label = label_;
+        is_running = true;
+
+        cout << endl;
+        cout << "Log Timer (" << label << ") : Running...";
+        cout << endl;
+    }
+
+    void timerStop(){
+
+        if (!is_running){
+
+            cout << "Log Timer (" << label << ") : Not Running." << endl;
+
+            return;
+        }
+
+        end = chrono::high_resolution_clock::now();
+        time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+
+        time_taken *= 1e-9;
+
+        cout << std::setprecision(9);
+        cout << "Log Timer (" << label << ") : Stopped after [" << std::fixed << time_taken << "] (seconds)" << endl;
+
+        is_running = false;
+
+    }
+
+    void timerElapse(){
+
+        if (!is_running){
+
+            cout << "Log Timer (" << label << ") : Not Running." << endl;
+
+            return;
+        }
+
+
+        end = chrono::high_resolution_clock::now();
+        time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+
+        time_taken *= 1e-9;
+
+        //cout << std::setprecision(9);
+        cout << "Log Timer (" << label << ") : Current Elapse [" << std::fixed << time_taken << "] (seconds)" << endl;
+
+    }
+
+    void print(const string &text) const{
+        //cout << endl;
+        cout << "Log Debug :[>>>>]: " << text << endl;
+    }
+
+    void print(const std::vector<int> &int_vector) const{
+
+        cout << '[';
+        for (int ai : int_vector){
+
+            if (ai != *int_vector.begin()){
+                std::cout << ',';
+            }
+
+            std::cout << ai;
+        }
+        cout << ']' << endl;
+    }
+
+    template <typename T>
+    void print(T int_array, int size) const{
+
+        cout << '[';
+
+        for (int i = 0; i < size; ++i) {
+
+            if (i > 0){
+                std::cout << ',';
+            }
+            std::cout << int_array[i];
+        }
+
+        cout << ']' << endl;
+    }
+
+
+};
+
 
 int main(int argc, const char * argv[]) {
-    //showMemoryUsage("Start");
-    //std::cout << "A = " << x << "\nB = " << y << endl;
-    //showMemoryUsage("End");
 
+    //std::array<int, ARRAY_SIZE> a1 = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
+    //std::vector<int> a2 = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
+
+
+    //ConsoleLogger clogger;
+
+    /*clogger.timerStart("top");
+
+    x = 0;
+    for (long i = 0; i < 9000000000; ++i) {
+
+
+        if (index == 5000){
+
+            //clogger.timerElapse();
+
+            index = 0;
+        }
+
+        x++;
+        index++;
+    }
+
+    clogger.timerStop();*/
+
+    /*cLog.timerStart("bottom");
+
+    x = 0;
+    for (long i = 0; i < 9000000000; ++i) {
+        x++;
+    }
+
+    cLog.timerStop();*/
 
 
 
@@ -628,6 +793,8 @@ void showMemoryUsage(const string &str)
 
     cout << std::endl << "(" << str << ")" << " Memory Usage : [" << memory << "] bytes" << std::endl;
 }
+
+
 
 void f_enum(){
     //"enum class Month" must be used instead of "enum Month"
