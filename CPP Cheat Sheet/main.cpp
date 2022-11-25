@@ -680,10 +680,80 @@ public:
 };
 
 
+//Why virtual keyword is required
+/**
+ * - If a DERIVED class is referenced by or pointed to by a BASE class pointer (eg : [base_pointer = &derived_pointer;])
+ * - Non-virtual function override will result in the base pointer variable binding to
+ * - its own version of the function (eg : [base_pointer->Display();]). because [base_pointer] was declared as a pointer to [Base()] and not [Derived()]
+ * - so think of a situation where [derived_pointer] is being casted to Base() allowing access to all Base()'s functions (because this is done at compile time)
+ * - By explicitly declaring the base class function as [virtual], the pointer will know to bind to the latest definition (override)
+ * - of the base function in any derived class (Note : The compile time binding is still being done (pointing to the base version of the function),
+ * - HOWEVER, the [virtual] declaration allows function override at runtime, meaning the latest function definition will be called (that is, from the derived class))
+ *
+ *
+    Base *base_pointer;
+    Derived derived_pointer;
+
+    base_pointer = &derived_pointer;
+
+    // virtual function binding
+    base_pointer->Output();
+
+    // Non-virtual function binding
+    base_pointer->Display();
+ */
+class Base{
+
+public:
+
+    virtual void Output(){
+        cout << "Output Base class" << endl;
+    }
+
+    void Display(){
+        cout << "Display Base class" << endl;
+    }
+
+};
+class Derived : public Base{
+
+public:
+
+    void Output(){
+        cout << "Output Derived class" << endl;
+    }
+
+    void Display(){
+        cout << "Display Derived class" << endl;
+    }
+
+};
+
+
+
+
 int main(int argc, const char * argv[]) {
 
     //std::array<int, ARRAY_SIZE> a1 = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
     //std::vector<int> a2 = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
+
+    Base *bpointr;
+
+    Derived dpointr;
+    Base p2;
+
+    bpointr = &dpointr;
+    bpointr = &p2;
+
+    bpointr->Display();
+
+// virtual function binding
+    bpointr->Output();
+
+// Non-virtual function binding
+    bpointr->Display();
+
+
 
 
     //ConsoleLogger clogger;
