@@ -687,7 +687,7 @@ public:
  * - its own version of the function (eg : [base_pointer->Display();]). because [base_pointer] was declared as a pointer to [Base()] and not [Derived()]
  * - so think of a situation where [derived_pointer] is being casted to Base() allowing access to all Base()'s functions (because this is done at compile time)
  * - By explicitly declaring the base class function as [virtual], the pointer will know to bind to the latest definition (override)
- * - of the base function in any derived class (Note : The compile time binding is still being done (pointing to the base version of the function),
+ * - of the base function in any derived class (Note : The compile time binding may / may not still be done (pointing to the base version of the function),
  * - HOWEVER, the [virtual] declaration allows function override at runtime, meaning the latest function definition will be called (that is, from the derived class))
  *
  *
