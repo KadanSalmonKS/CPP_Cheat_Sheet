@@ -50,7 +50,7 @@ void f_math_functions();
 void f_range_for_loop();
 void f_bitwise_operations(); //working with bitwise operators (^, &, |, <<, >>, ~)
 void f_bit_masking_filtering(); //using bitwise operators for bit-masking to filter bits and extract data
-
+void f_working_with_vectors();
 
 
 //declare function callbacks externally
@@ -735,24 +735,12 @@ public:
 int main(int argc, const char * argv[]) {
 
     //std::array<int, ARRAY_SIZE> a1 = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
-    //std::vector<int> a2 = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
+    std::vector<int> a = {2, 99, 0 };
+    std::vector<int> b = {748, -21474 , 4 };
+    std::vector<int> f = {b.begin(), b.end()};
+    std::vector<int> c_ = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
 
-    Base *bpointr;
-
-    Derived dpointr;
-    Base p2;
-
-    bpointr = &dpointr;
-    bpointr = &p2;
-
-    bpointr->Display();
-
-// virtual function binding
-    bpointr->Output();
-
-// Non-virtual function binding
-    bpointr->Display();
-
+    f_working_with_vectors();
 
 
 
@@ -1424,6 +1412,117 @@ void f_bit_masking_filtering() {
 
 
 
+
+
+
+}
+void f_working_with_vectors(){
+    std::vector<int> a = {2, 99, 0 };
+    std::vector<int> b = {748, -21474 , 4 };
+    std::vector<int> f = {b.begin(), b.end()};
+    std::vector<int> c_ = {2, 99, 0, -743, 2147,483,-214 , 2, 748, -21474 , 4 };
+    std::vector<string> str = {"my", "name" , "is", "Kadian", "Salmon" };
+
+    //=== FIND strings in a vector
+    cout << std::find(str.begin(), str.end(),"my")->data() << endl;
+
+    //=== RESIZE a vector
+    //str.resize(10);
+
+    //=== VIEW SIZE of a vector
+    cout << str.size() << endl;
+
+
+    //=== ITERATOR - Allows us to keep track of where we are in a vector
+    //std::vector<string>::iterator it;
+    for (auto it = str.begin(); it != str.end() ; ++it) {
+        //cout << *it << endl;
+        cout << it->data() << endl;
+    }
+
+    //=== ASSIGN values to vectors (writes over elements in vector)
+    //str.assign(num_of_elements,value_to_be_assigned)
+    //str.assign(5,"NA");
+    for (auto it = str.begin(); it != str.end() ; ++it) {
+        //cout << *it << endl;
+        cout << *it << endl;
+    }
+
+
+    //=== ADD elements to the end of the vector
+    str.emplace_back("Junior");
+    for (auto it = str.begin(); it != str.end() ; ++it) {
+        //cout << *it << endl;
+        cout << *it << endl;
+    }
+    cout << endl;
+    cout << endl;
+
+    //=== INSERT adds elements to the location after the iterator.
+    //To add elements using insert:
+    //  Set the iterator to one before the location where you would like to add an element.
+    //  Use insert to add the element.
+
+    //Insert copies the values of the vector while emplace does an in-place insertion. This means the insertion occurs at the point after the iterator.
+    std::vector<string>::iterator it2 = str.begin();
+    //str.insert(it2, "Hello");
+    str.emplace(it2, "Hello"); //more efficient
+
+    for (auto it = str.begin(); it != str.end() ; ++it) {
+        //cout << *it << endl;
+        cout << *it << endl;
+    }
+
+    //=== CLEAR the vector - remove all vector elements at the same time
+    str.clear();
+    cout << endl;
+    cout << endl;
+
+    cout << str.size() << endl; // becomes zero once cleared
+
+
+    //=== ERASE - remove specific elements from a vector
+    //erase the 5th element in the vector
+
+    //NOTICE - Always check that something is at this position
+
+    str.erase(str.begin()+4);
+    for (auto it = str.begin(); it != str.end() ; ++it) {
+        //cout << *it << endl;
+        cout << *it << endl;
+    }
+
+    //erase a range of elements in the vector
+    //str.erase(str.begin()+1, str.begin()+3); //vector.erase(left,right) // *([left,right))*
+
+
+    //=== CHECK if container is empty
+    // checks if the vector is empty or not
+    if (!str.empty())
+        cout << "\nVector is not empty";
+    else
+        cout << "\nVector is empty";
+
+
+    //=== REMOVE(first,last,val)
+    //This method removes all elements which are equal to val and returns an iterator to the new end of that range.
+    //str.remove(v.begin(),v.end(),val)
+
+
+    //=== REMOVE_IF()
+    //Transforms the range [first,last) into a range with all elements for which func returns true removed.
+    //bool isEven(int k){
+    //    return ((i%2) == 0);
+    //}
+    //remove_if(vector.begin(), vector.end(), func)
+    //it = remove_if(v.begin(), v.end(), isEven);
+
+
+    //=== swap() – It is used to swap the contents of two vectors of the same datatype. The sizes of vectors may differ.
+
+    //=== pop_back() – It removes elements from the back of the vector.
+    //pop the last element off the vector
+    str.pop_back();
 
 
 
