@@ -1474,7 +1474,7 @@ void f_working_with_vectors(){
     }
 
     //=== CLEAR the vector - remove all vector elements at the same time
-    str.clear();
+    //str.clear();
     cout << endl;
     cout << endl;
 
